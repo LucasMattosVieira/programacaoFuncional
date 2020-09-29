@@ -197,7 +197,7 @@ insercaoC (x:xs) = insertC (x:xs,0)
 
 fastsortC :: (Ord a) => ([a],Int) -> ([a],Int)
 fastsortC ([],c) = ([],c)
-fastsortC (s:xs,c) = junta2 (junta3 (length l1) (fastsortInv (l1,c))) (junta s (junta3 (length l2) (fastsortInv (l2,c))))
+fastsortC (s:xs,c) = junta2 (junta3 (length xs) (fastsortInv (l1,c))) (junta s (junta3 (length xs) (fastsortInv (l2,c))))
              where
               l1 = [ x | x <- xs, x < s ]
               l2 = [ x | x <- xs, x >= s ]
@@ -271,7 +271,7 @@ insercaoInv (x:xs) = insertInv (x:xs,0)
 
 fastsortInv :: (Ord a) => ([a],Int) -> ([a],Int)
 fastsortInv ([],c) = ([],c)
-fastsortInv (s:xs,c) = junta2 (junta3 (length l1) (fastsortInv (l1,c))) (junta s (junta3 (length l2) (fastsortInv (l2,c))))
+fastsortInv (s:xs,c) = junta2 (junta3 (length xs) (fastsortInv (l1,c))) (junta s (junta3 (length xs) (fastsortInv (l2,c))))
              where
               l1 = [ x | x <- xs, x >= s ]
               l2 = [ x | x <- xs, x < s ]
