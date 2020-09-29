@@ -172,24 +172,8 @@ selecaoC [] = ([],0)
 selecaoC xs = selectC (xs,0)
 
 --Insertion sort
-{-
-insercao :: (Ord a) => [a] -> [a]
-insercao [] = []
-insercao (x:xs) = insereOrd x (insercao xs)
-
-insereOrd :: (Ord a) => a -> [a] -> [a]
-insereOrd x [] = [x]
-insereOrd x (y:ys)
-         | x <= y = (x:y:ys)
-         | otherwise = y : (insereOrd x ys)
 
 --Quick sort
 
-quicksort :: (Ord a) => [a] -> [a]
-quicksort [] = []
-quicksort (s:xs) = quicksort [ x | x <- xs, x < s ]
-                   ++ [s] ++
-                   quicksort [ x | x <- xs, x >= s ]
 
--}
 --Exercício 12
