@@ -128,6 +128,12 @@ quicksort (s:xs) = quicksort [ x | x <- xs, x < s ]
 junta :: a -> ([a],b) -> ([a],b)
 junta x (y,c) = (x:y,c)
 
+junta2 :: ([a],Int) -> ([a],Int) -> ([a],Int)
+junta2 (l1,x) (l2,y) = (l1 ++ l2, x + y)
+
+junta3 :: Int -> ([a],Int) -> ([a],Int)
+junta3 x (l,y) = (l,x + y)
+
 --Bubble sort
 
 trocaC :: (Ord a) => ([a],Int) -> ([a],Int)
@@ -173,7 +179,103 @@ selecaoC xs = selectC (xs,0)
 
 --Insertion sort
 
+insereOrdC :: (Ord a) => a -> ([a],Int) -> ([a],Int)
+insereOrdC x ([],c) = ([x],c)
+insereOrdC x (y:ys,c)
+         | x <= y = junta x (y:ys,c+1)
+         | otherwise = junta y (insereOrdC x (ys,c+1))
+
+insertC :: (Ord a) => ([a],Int) -> ([a],Int)
+insertC ([],c) = ([],c)
+insertC (x:xs,c) = insereOrdC x (insertC (xs,c))
+
+insercaoC :: (Ord a) => [a] -> ([a],Int)
+insercaoC [] = ([],0)
+insercaoC (x:xs) = insertC (x:xs,0)
+
 --Quick sort
 
+fastsortC :: (Ord a) => ([a],Int) -> ([a],Int)
+fastsortC ([],c) = ([],c)
+fastsortC (s:xs,c) = junta2 (junta3 (length l1) (fastsortInv (l1,c))) (junta s (junta3 (length l2) (fastsortInv (l2,c))))
+             where
+              l1 = [ x | x <- xs, x < s ]
+              l2 = [ x | x <- xs, x >= s ]
+
+quicksortC :: (Ord a) => [a] -> ([a],Int)
+quicksortC [] = ([],0)
+quicksortC (s:xs) = fastsortC(s:xs,0)
 
 --Exercício 12
+
+--Bubble sort
+
+trocaInv :: (Ord a) => ([a],Int) -> ([a],Int)
+trocaInv ([x],c) = ([x],c)
+trocaInv (x:y:z,c)
+     | x < y = junta y (trocaInv (x:z,c+1))
+     | otherwise = junta x (trocaInv (y:z,c+1))
+
+bolhaOrdInv :: (Ord a) => ([a],Int) -> Int -> ([a],Int)
+bolhaOrdInv (lista,x) 0 = (lista,x)
+bolhaOrdInv (lista,x) n = bolhaOrdInv (trocaInv (lista,x)) (n - 1)
+
+bolhaInv :: (Ord a) => [a] -> ([a],Int)
+bolhaInv [] = ([],0)
+bolhaInv lista = bolhaOrdInv (lista,0) (length lista)
+
+--Selection sort
+
+maximo :: (Ord a) => ([a],Int) -> (a,Int)
+maximo ([],_) = undefined
+maximo ([x],c) = (x,c)
+maximo (x:xs,c)
+      | x > z = (x,c+1)
+      | otherwise = maximo (xs,c+1)
+          where
+          (z,_) = maximo (xs,c)
+
+removeInv :: (Ord a) => a -> ([a],Int) -> ([a],Int)
+removeInv a ([],c) = ([],c)
+removeInv a (x:xs,c)
+      | a == x = (xs,c)
+      | otherwise = junta x (removeInv a (xs,c))
+
+selectInv :: (Ord a) => ([a],Int) -> ([a],Int)
+selectInv ([],c) = ([],c)
+selectInv (xs,c) = junta x (selectInv (removeInv x (xs,c+y)))
+       where
+       (x,y) = maximo (xs,0)
+
+selecaoInv :: (Ord a) => [a] -> ([a],Int)
+selecaoInv [] = ([],0)
+selecaoInv xs = selectInv (xs,0)
+
+--Insertion sort
+
+insereOrdInv :: (Ord a) => a -> ([a],Int) -> ([a],Int)
+insereOrdInv x ([],c) = ([x],c)
+insereOrdInv x (y:ys,c)
+         | x > y = junta x (y:ys,c+1)
+         | otherwise = junta y (insereOrdInv x (ys,c+1))
+
+insertInv :: (Ord a) => ([a],Int) -> ([a],Int)
+insertInv ([],c) = ([],c)
+insertInv (x:xs,c) = insereOrdInv x (insertInv (xs,c))
+
+insercaoInv :: (Ord a) => [a] -> ([a],Int)
+insercaoInv [] = ([],0)
+insercaoInv (x:xs) = insertInv (x:xs,0)
+
+--Quick sort
+
+fastsortInv :: (Ord a) => ([a],Int) -> ([a],Int)
+fastsortInv ([],c) = ([],c)
+fastsortInv (s:xs,c) = junta2 (junta3 (length l1) (fastsortInv (l1,c))) (junta s (junta3 (length l2) (fastsortInv (l2,c))))
+             where
+              l1 = [ x | x <- xs, x >= s ]
+              l2 = [ x | x <- xs, x < s ]
+
+quicksortInv :: (Ord a) => [a] -> ([a],Int)
+quicksortInv [] = ([],0)
+quicksortInv (s:xs) = fastsortInv(s:xs,0)
