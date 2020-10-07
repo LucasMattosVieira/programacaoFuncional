@@ -1,6 +1,6 @@
 {-
     Trabalho 2 de Programação Funcinal
-    Feito em dupla com o aluno Lucas Marçal Coutinho - 
+    Feito em dupla com o aluno Lucas Marçal Coutinho - 11911BCC012
 -}
 
 {-
