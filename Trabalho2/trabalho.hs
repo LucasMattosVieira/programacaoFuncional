@@ -1,6 +1,7 @@
 {-
     Trabalho 2 de Programação Funcinal
-    Feito em dupla com o aluno Lucas Marçal Coutinho - 11911BCC012
+    Alunos: Lucas Marçal Coutinho e Lucas Mattos Vieira
+    Matrículas: 11911BCC012 e 11911BCC015 (respectivamente)
 -}
 
 {-
